@@ -1,12 +1,10 @@
-from sqlalchemy import Column, DateTime, Integer, String
-from sqlalchemy.orm import relationship
+from typing import Optional
+from sqlmodel import Field, SQLModel
+from datetime import datetime
 
-from .database import Base
 
-
-class Audit(Base):
+class Audit(SQLModel, table=True):
     __tablename__ = "audits"
-
-    id = Column(Integer, primary_key=True, index=True)
-    content = Column(String)
-    date_created = Column(DateTime)
+    id: Optional[int] = Field(default=None, primary_key=True)
+    content: str = Field(index=True)
+    date_created: datetime = Field(default=datetime.utcnow())

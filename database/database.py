@@ -1,12 +1,10 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlmodel import SQLModel, create_engine
 from config import settings
 
-SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
+postgresql_url = settings.DATABASE_URL
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+engine = create_engine(postgresql_url, echo=True)
 
-Base = declarative_base()
-print(SQLALCHEMY_DATABASE_URL)
+
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)
